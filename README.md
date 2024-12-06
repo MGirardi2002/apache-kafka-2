@@ -25,6 +25,7 @@ docker pull provectuslabs/kafka-ui:latest &
 ```
  docker images
 ```
+Se estiver com as 3 imagens listadas, o docker compose funcionará corretamente.
 
 ## Criação do Ambiente
 
@@ -33,7 +34,9 @@ docker pull provectuslabs/kafka-ui:latest &
 ```
 docker compose up -d
 ```
+Com isso, evidencia-se a execução do docker-compose.yml
 
+![img](imgs/01.png)
 ```
 docker exec -it kafka1 kafka-topics --create --topic topicMM --bootstrap-server kafka1:9092 --partitions 3 --replication-factor 3
 ```
