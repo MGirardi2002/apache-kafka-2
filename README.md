@@ -26,13 +26,13 @@ docker pull provectuslabs/kafka-ui:latest &
  docker images
 ```
 
-5. Inicializar docker-compose:
+## Criação do Ambiente
+
+1. Inicializar docker-compose:
 
 ```
 docker compose up -d
 ```
-
-7. No terminal, rodar comando para gerar o tópico com 3 partições e 3 fatores de replicação:
 
 ```
 docker exec -it kafka1 kafka-topics --create --topic topicMM --bootstrap-server kafka1:9092 --partitions 3 --replication-factor 3
