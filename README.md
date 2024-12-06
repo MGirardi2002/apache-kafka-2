@@ -32,12 +32,6 @@ docker pull provectuslabs/kafka-ui:latest &
 docker compose up -d
 ```
 
-6. Inicializar localhost:
-
-```
-http://localhost:8080/
-```
-
 7. No terminal, rodar comando para gerar o tópico com 3 partições e 3 fatores de replicação:
 
 ```
@@ -64,3 +58,11 @@ docker exec -it kafka1 kafka-console-producer --topic topicMM --bootstrap-server
 ```
 docker exec -it kafka1 kafka-console-consumer --topic topicMM --bootstrap-server kafka1:9092 --from-beginning
 ```
+
+## Interface Gráfica - Kafka UI
+
+Para acessar a interface gráfica, basta acessar o localhost:8080 no seu navegador.
+```
+http://localhost:8080/
+```
+
