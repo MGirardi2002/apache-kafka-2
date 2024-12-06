@@ -76,11 +76,107 @@ Mesmo com um dos nodos derrubados, o Produtor e o Consumidor não deixam de func
 
 ![img](imgs/04.png)
 
+## Adicionar um Nodo
 
+Para adicionar um Nodo ao cluster, é necessário primeiro alterar o docker-composer.yml. Estaremos adicionando um nomeado kafka4, e as alterações são as seguintes:
+```
+docker compose mudado
+
+version: "3.8"
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka1:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka1
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka1:9092"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    depends_on:
+      - zookeeper
+
+  kafka2:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka2
+    ports:
+      - "9093:9093"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 2
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka2:9093"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    depends_on:
+      - zookeeper
+
+  kafka3:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka3
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 3
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka3:9094"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    depends_on:
+      - zookeeper
+
+  kafka4:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka4
+    ports:
+      - "9095:9095"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 4
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka4:9095"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    depends_on:
+      - zookeeper
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: "kafka1:9092,kafka2:9093,kafka3:9094,kafka4:9095"
+    depends_on:
+      - kafka1
+      - kafka2
+      - kafka3
+      - kafka4
+
+volumes:
+  kafka_data1:
+    driver: local
+  kafka_data2:
+    driver: local
+  kafka_data3:
+    driver: local
+  kafka_data4:
+    driver: local
+```
+Logo, basta rodar o comando docker compose up -d kafka4, que o novo nodo será adicionado.
+Evidencia-se que mesmo com a alteração do número de nodos, tanto ao derrubar os que já existem quanto adicionar novos, o cluster continua resiliente.
+![img](imgs/04.png)
 
 ## Interface Gráfica - Kafka UI
 
-Para acessar a interface gráfica, basta acessar o localhost:8080 no seu navegador.
+Para acessar a interface gráfica, basta acessar o localhost:8080 no seu navegador. A interface gráfica é ótima para melhor visualização e configuração do cluster que você manuseia. Abaixo, prints da interface:
+
 ```
 http://localhost:8080/
 ```
