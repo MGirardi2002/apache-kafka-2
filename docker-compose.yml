@@ -68,3 +68,5 @@ volumes:
     driver: local
   kafka_data3:
     driver: local
+
+#teste
